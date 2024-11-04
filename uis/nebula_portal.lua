@@ -4221,7 +4221,7 @@ do
 				Hit_Effects:Colorpicker({Nmae = "2D", Default = Color3.fromRGB(255, 0, 0), Transparency = 1, Flag = "2D Color"});
 				Hit_Effects:Colorpicker({Nmae = "Damage", Default = Color3.fromRGB(255, 0, 0), Transparency = 1, Flag = "Damage Color"});
 				Hit_Effects:Toggle({Name = "Hit Effects", Flag = "Hit Effects"}):Colorpicker({Default = Color3.fromRGB(255,255,255), Flag = "Hit Effect Settings"});
-				Hit_Effects:List({Name = "Hit Effects", Flag = "Hit Effect", Options = {--[["Confetti"]] "Nova", "Sparkle", "Splash", "Slash", "Detailed Slash", "Electric", "Electric 2"}, Default = "Confetti"})
+				Hit_Effects:List({Name = "Hit Effects", Flag = "Hit Effect", Options = {--[["Confetti" "Nova", "Sparkle", "Splash", "Slash", "Detailed Slash", "Electric", "Electric 2"}, Default = "Confetti"})
 --[[				
 Hit_Effects:Toggle({Name = "Hit Chams", Flag = "Hit Chams"}):Colorpicker({Default = Color3.fromRGB(255, 0, 0), Transparency = 0.8, Flag = "Hit Chams Settings"});
 				local VisualizeHighlight = Hit_Effects:Toggle({Name = "Highlight", Flag = "Hit Cham Highlight", Default = true})
@@ -4342,9 +4342,9 @@ Hit_Effects:Toggle({Name = "Hit Chams", Flag = "Hit Chams"}):Colorpicker({Defaul
 	end
 end 
 --]]
---]]
 
 --Notifications:Notification("Loaded cheat in approxiametely: " .. math.floor(tick() - Tick) .. " seconds", 5, Library.Accent, false)
 
+--local window = Library:Window({})
 
 return Library
