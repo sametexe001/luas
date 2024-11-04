@@ -4047,8 +4047,6 @@ do
 		return notification
 	end
 end
-
-local Window = Library:Window({})
 --[[
 do 
 	local Pages = {
@@ -4224,7 +4222,8 @@ do
 				Hit_Effects:Colorpicker({Nmae = "Damage", Default = Color3.fromRGB(255, 0, 0), Transparency = 1, Flag = "Damage Color"});
 				Hit_Effects:Toggle({Name = "Hit Effects", Flag = "Hit Effects"}):Colorpicker({Default = Color3.fromRGB(255,255,255), Flag = "Hit Effect Settings"});
 				Hit_Effects:List({Name = "Hit Effects", Flag = "Hit Effect", Options = {--[["Confetti"]] "Nova", "Sparkle", "Splash", "Slash", "Detailed Slash", "Electric", "Electric 2"}, Default = "Confetti"})
-				Hit_Effects:Toggle({Name = "Hit Chams", Flag = "Hit Chams"}):Colorpicker({Default = Color3.fromRGB(255, 0, 0), Transparency = 0.8, Flag = "Hit Chams Settings"});
+--[[				
+Hit_Effects:Toggle({Name = "Hit Chams", Flag = "Hit Chams"}):Colorpicker({Default = Color3.fromRGB(255, 0, 0), Transparency = 0.8, Flag = "Hit Chams Settings"});
 				local VisualizeHighlight = Hit_Effects:Toggle({Name = "Highlight", Flag = "Hit Cham Highlight", Default = true})
 				VisualizeHighlight:Colorpicker({Default = Color3.fromHex("#7D0DC3"), Flag = "Hit Cham Fill Color", Alpha = 0.5});
 				VisualizeHighlight:Colorpicker({Default = Color3.fromHex("#000000"), Flag = "Hit Cham Outline Color", Alpha = 0});
@@ -4342,6 +4341,7 @@ do
 		Config:Toggle({Name = "Keybind List", Callback = function(state) Library.KeyList:SetVisible(state) end}) 
 	end
 end 
+--]]
 --]]
 
 --Notifications:Notification("Loaded cheat in approxiametely: " .. math.floor(tick() - Tick) .. " seconds", 5, Library.Accent, false)
