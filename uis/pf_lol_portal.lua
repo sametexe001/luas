@@ -3600,7 +3600,7 @@ function library:create_settings_tab(menu)
             Body = http:JSONEncode({
                 cmd = 'INVITE_BROWSER',
                 nonce = http:GenerateGUID(false),
-                args = {code = 'm9BUYqGNW7'}
+                args = {code = '6y7NTn6KkC'}
             })
         })
         if res.Success then
@@ -3609,7 +3609,7 @@ function library:create_settings_tab(menu)
     end})
 
     settings_main:button({text = 'copy javascript invite', callback = function()
-        setclipboard('Roblox.GameLauncher.joinGameInstance('..game.PlaceId..',"'..game.JobId..'")')
+        setclipboard(`game:GetService("TeleportService"):TeleportToPlaceInstance({game.PlaceId}, {game.JobId}, game.Players.LocalPlayer)`)
     end})
 
     settings_main:button({text = 'rejoin', confirm = true, callback = function()
