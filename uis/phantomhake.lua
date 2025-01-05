@@ -16,9 +16,18 @@ local Library = {
     Objects = {};
     ThemeObjects = {Objects = {}; Outlines = {}};
     Text = {};
+    UIBind = Enum.KeyCode.RightShift;
     Themes = {
         ["Default"] = {["Accent"] = Color3.fromRGB(121, 68, 155);["Border1"] = Color3.fromRGB(10, 10, 10);["Border2"] = Color3.fromRGB(45, 45, 45);["Light Contrast"] = Color3.fromRGB(30, 30, 30);["Dark Contrast"] = Color3.fromRGB(20, 20, 20);["Text"] = Color3.fromRGB(175,175,175);["Light Text"] = Color3.fromRGB(255, 255, 255);};
-        ["Old"] = {["Accent"] = Color3.fromRGB(82, 131, 255);["Border1"] = Color3.fromRGB(0,0,0);["Border2"] = Color3.fromRGB(50,50,50);["Light Contrast"] = Color3.fromRGB(30,30,30);["Dark Contrast"] = Color3.fromRGB(24,24,24);["Text"] = Color3.fromRGB(175,175,175);["Light Text"] = Color3.fromRGB(255,255,255);};
+        ["Old"] = {
+            ["Accent"] = Color3.fromRGB(255, 186, 82);
+            ["Border1"] = Color3.fromRGB(0,0,0);
+            ["Border2"] = Color3.fromRGB(50,50,50);
+            ["Light Contrast"] = Color3.fromRGB(30,30,30);
+            ["Dark Contrast"] = Color3.fromRGB(24,24,24);
+            ["Text"] = Color3.fromRGB(255,255,255);
+            ["Light Text"] = Color3.fromRGB(255,255,255);
+        };
         ["Entrophy"] = {["Accent"] = Color3.fromRGB(129, 187, 233);["Border1"] = Color3.fromRGB(10, 10, 10);["Border2"] = Color3.fromRGB(76, 74, 82);["Light Contrast"] = Color3.fromRGB(61, 58, 67);["Dark Contrast"] = Color3.fromRGB(48, 47, 55);["Text"] = Color3.fromRGB(175,175,175);["Light Text"] = Color3.fromRGB(220, 220, 220);};
         ["Fatality"] = {["Accent"] = Color3.fromRGB(240, 15, 80);["Border1"] = Color3.fromRGB(15, 15, 40);["Border2"] = Color3.fromRGB(50, 40, 80);["Light Contrast"] = Color3.fromRGB(35, 25, 70);["Dark Contrast"] = Color3.fromRGB(25, 20, 50);["Text"] = Color3.fromRGB(175,175,175);["Light Text"] = Color3.fromRGB(200, 200, 255);};
     };
@@ -203,6 +212,8 @@ local Icons = {}; -- Ignore
 local Pickers = {}; -- Ignore
 Library.Theme = table.clone(Library.Themes["Old"]);
 
+local HttpService = game:GetService("HttpService");
+
 -- // Extension
 local Render = loadstring(game:HttpGet("https://gist.githubusercontent.com/0f76/9dc85c8c380d895373dd306fd372fa59/raw/e2abc40c2b5f159d61b10558c86e4f98823e30f5/drawing_extension.lua"))();
 Library.__index = Library;
@@ -287,7 +298,7 @@ do -- Misc Functions
     --
     function Library:LoadTheme(ThemeType, Themes)
         if Themes[ThemeType] then
-            local ThemeValue = game.HttpService:JSONDecode(Themes[ThemeType][2])
+            local ThemeValue = HttpService:JSONDecode(Themes[ThemeType][2])
             
             for Index, Value in pairs(ThemeValue) do
                 Library:ChangeThemeColor(Index, Color3.fromHex(Value));
@@ -465,12 +476,6 @@ do -- Elemental Functions
             Size = UDim2.new(0, 20, 0, 10),
             Position = UDim2.new(1, -30 - (count * 17) - (count * 6), 0, 4 + offset),
             ZIndex = 55
-        })
-        local alphaicon = Library:NewDrawing("Image", {
-            Size = UDim2.new(1, 0, 1, 0),
-            ZIndex = 61,
-            Parent = icon,
-            Data = Decode("iVBORw0KGgoAAAANSUhEUgAAABIAAAAKBAMAAABLZROSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURb+/v////5nD/3QAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAVSURBVBjTY2AQhEIkliAWSLY6QQYAknwC7Za+1vYAAAAASUVORK5CYII=")
         })
 
         local InnerOutline = Library:NewOutline(icon, "Border1", 55);
@@ -681,7 +686,6 @@ do -- Elemental Functions
             if hsv ~= oldcolor or alpha ~= oldalpha then
                 icon.Color = hsv
                 alphaframe.Color = hsv
-                alphaicon.Transparency = 1 - alpha
 
                 if not nopos then
                     saturationpicker.Position = UDim2.new(0, (math.clamp(sat * saturation.AbsoluteSize.X, 0, saturation.AbsoluteSize.X - 2)), 0, (math.clamp((1 - val) * saturation.AbsoluteSize.Y, 0, saturation.AbsoluteSize.Y - 2)))
@@ -715,7 +719,7 @@ do -- Elemental Functions
         local function updatesatval(input, set_callback)
             local sizeX = math.clamp((input.Position.X - saturation.AbsolutePosition.X) / saturation.AbsoluteSize.X, 0, 1)
             local sizeY = 1 - math.clamp(((input.Position.Y - saturation.AbsolutePosition.Y) + 36) / saturation.AbsoluteSize.Y, 0, 1)
-            local posY = math.clamp(((input.Position.Y - saturation.AbsolutePosition.Y) / saturation.AbsoluteSize.Y) * saturation.AbsoluteSize.Y + 36, 0, saturation.AbsoluteSize.Y - 2)
+            local posY = math.clamp((((input.Position.Y + 20) - saturation.AbsolutePosition.Y) / saturation.AbsoluteSize.Y) * saturation.AbsoluteSize.Y + 36, 0, saturation.AbsoluteSize.Y - 2)
             local posX = math.clamp(((input.Position.X - saturation.AbsolutePosition.X) / saturation.AbsoluteSize.X) * saturation.AbsoluteSize.X, 0, saturation.AbsoluteSize.X - 2)
 
             saturationpicker.Position = UDim2.new(0, posX, 0, posY)
@@ -744,8 +748,8 @@ do -- Elemental Functions
         local slidinghue = false
 
         local function updatehue(input, set_callback)
-            local sizeY = 1 - math.clamp(((input.Position.Y - hueframe.AbsolutePosition.Y) + 36) / hueframe.AbsoluteSize.Y, 0, 1)
-            local posY = math.clamp(((input.Position.Y - hueframe.AbsolutePosition.Y) / hueframe.AbsoluteSize.Y) * hueframe.AbsoluteSize.Y + 36, 0, hueframe.AbsoluteSize.Y - 2)
+            local sizeY = 1 - math.clamp(((input.Position.Y - hueframe.AbsolutePosition.Y)) / hueframe.AbsoluteSize.Y, 0, 1)
+            local posY = math.clamp((((input.Position.Y + 20) - hueframe.AbsolutePosition.Y) / hueframe.AbsoluteSize.Y) * hueframe.AbsoluteSize.Y + 36, 0, hueframe.AbsoluteSize.Y - 2)
 
             huepicker.Position = UDim2.new(0, 0, 0, posY)
             saturation.Color = Color3.fromHSV(sizeY, 1, 1)
@@ -772,8 +776,8 @@ do -- Elemental Functions
         local slidingalpha = false
 
         local function updatealpha(input, set_callback)
-            local sizeY = 1 - math.clamp(((input.Position.Y - alphaframe.AbsolutePosition.Y) + 36) / alphaframe.AbsoluteSize.Y, 0, 1)
-            local posY = math.clamp(((input.Position.Y - alphaframe.AbsolutePosition.Y) / alphaframe.AbsoluteSize.Y) * alphaframe.AbsoluteSize.Y + 36, 0, alphaframe.AbsoluteSize.Y - 2)
+            local sizeY = 1 - math.clamp(((input.Position.Y - alphaframe.AbsolutePosition.Y)) / alphaframe.AbsoluteSize.Y, 0, 1)
+            local posY = math.clamp((((input.Position.Y + 20) - alphaframe.AbsolutePosition.Y) / alphaframe.AbsoluteSize.Y) * alphaframe.AbsoluteSize.Y + 36, 0, alphaframe.AbsoluteSize.Y - 2)
 
             alphapicker.Position = UDim2.new(0, 0, 0, posY)
             if set_callback then
@@ -971,6 +975,7 @@ do
             Dragging = {false, UDim2.new(0, 0, 0, 0)};
             Resizing = {false, UDim2.new(0, 0, 0, 0), UDim2.new(0, 0, 0, 0)};
             Resized = nil;
+            Open = true,
             Elements = {};
         };
 
@@ -984,6 +989,15 @@ do
             Position = UDim2.new(0, 100, 0, 100);
             ZIndex = 50;
         });
+
+        game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
+            if gameProcessedEvent then return end;
+            if input.UserInputType == Library.UIBind then
+                Window.Open = not Window.Open;
+                MainFrame.Visible = Window.Open;
+            end;
+        end)
+
         Library:NewOutline(MainFrame, "Border1")
         local MainFrameOutline = Library:NewDrawing("Square", {
             Visible = true;
@@ -1270,7 +1284,7 @@ do
             Theme = "Text";
             OutlineColor = Color3.fromRGB();
             Outline = false;
-            Position = UDim2.new(0, 42, 0, 4);
+            Position = UDim2.new(0, 32, 0, 4);
             Parent = TabInnerFrame;
             ZIndex = 53;
             Center = true,
@@ -1282,7 +1296,7 @@ do
             Color = Color3.fromRGB();
             OutlineColor = Color3.fromRGB();
             Outline = false;
-            Position = UDim2.new(0, 43, 0, 5);
+            Position = UDim2.new(0, 33, 0, 5);
             Parent = TabInnerFrame;
             ZIndex = 52;
             Center = true,
@@ -3762,15 +3776,49 @@ do
         return Textbox
     end;
 end; 
+
+function Library:AddSettingsTab(Window)
+    local SettingsTab = Window:Tab({Title = "Settings"});
+    local ThemeSection = SettingsTab:Section({Title = "Theme", side = "right"});
+
+    ThemeSection:Colorpicker({Title = "Accent", State = Library.Theme.Accent, Flag = "AccentColor", Callback = function()
+        Library.Theme.Accent = Library.Flags["AccentColor"];
+        Library:ChangeThemeColor("Accent", Library.Theme.Accent);
+    end});
+    ThemeSection:Colorpicker({Title = "Border 1", State = Library.Theme.Border1, Flag = "Border1Color", Callback = function()
+        Library.Theme.Border1 = Library.Flags["Border1Color"];
+        Library:ChangeThemeColor("Border1", Library.Theme.Border1);
+    end});
+    ThemeSection:Colorpicker({Title = "Border 2", State = Library.Theme.Border2, Flag = "Border2Color", Callback = function()
+        Library.Theme.Border2 = Library.Flags["Border2Color"];
+        Library:ChangeThemeColor("Border2", Library.Theme.Border2);
+    end});
+    ThemeSection:Colorpicker({Title = "Light Contrast", State = Library.Theme["Light Contrast"], Flag = "LightContrastColor", Callback = function()
+        Library.Theme["Light Contrast"] = Library.Flags["LightContrastColor"];
+        Library:ChangeThemeColor("Light Contrast", Library.Theme["Light Contrast"]);
+    end});
+    ThemeSection:Colorpicker({Title = "Dark Contrast", State = Library.Theme["Dark Contrast"], Flag = "DarkContrastColor", Callback = function()
+        Library.Theme["Dark Contrast"] = Library.Flags["DarkContrastColor"];
+        Library:ChangeThemeColor("Dark Contrast", Library.Theme["Dark Contrast"]);
+    end});
+    ThemeSection:Colorpicker({Title = "Text", State = Library.Theme.Text, Flag = "TextColor", Callback = function()
+        Library.Theme.Text = Library.Flags["TextColor"];
+        Library:ChangeThemeColor("Text", Library.Theme.Text);
+    end});
+    ThemeSection:Colorpicker({Title = "Light Text", State = Library.Theme["Light Text"], Flag = "LightTextColor", Callback = function()
+        Library.Theme["Light Text"] = Library.Flags["LightTextColor"];
+        Library:ChangeThemeColor("Light Text", Library.Theme["Light Text"]);
+    end});
+end;
 --[[
-local Test = Library:Window({Title = "osiris", Sub = " is a paste", Extra = "- extra text here figure out yourself nigger", Size = UDim2.new(0,620,0,655)});
+local Test = Library:Window({Title = "samet", Sub = "hack.xyz", Extra = "- extra text here figure out yourself nigger", Size = UDim2.new(0,561,0,595)});
 local Page = Test:Tab({Title = "Legit"})
 Test:Tab({Title = "Rage"})
 Test:Tab({Title = "Players"})
 Test:Tab({Title = "Visuals"})
 Test:Tab({Title = "Misc"})
 Test:Tab({Title = "World"})
-Test:Tab({Title = "Config", TabLine = true})
+Library:AddSettingsTab(Test);
 --
 local Section = Page:Section({Title = "section"})
 Page:Section({Title = "section"})
