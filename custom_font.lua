@@ -75,7 +75,7 @@ local Fonts; do
     function Fonts.GetFont(Name)
         for FontName, FontData in Fonts do
             if FontName == Name then 
-                return Font.new(getcustomasset(Fonts.Folder .. "/" .. FontData.FilName[2]));
+                return Font.new(getcustomasset(Fonts.Folder .. "/" .. FontData.FileName[2]));
             end;
         end;
     end;
