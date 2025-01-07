@@ -828,7 +828,7 @@ do
 				Name = Options.Name or "Monlith";
 			};
 			--
-			local ScreenGui = Instance.new("ScreenGui", game:GetService("RunService"):IsStudio() and game.Players.LocalPlayer.PlayerGui or game.CoreGui)
+			local ScreenGui = Instance.new("ScreenGui", gethui())
 			ScreenGui.Name = "ScreenGui"
 			ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 			Library.ScreenGUI = ScreenGui
