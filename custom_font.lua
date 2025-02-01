@@ -42,6 +42,11 @@ local Fonts; do
             FileName = {"teachersPet.ttf", "teachersPet.json"},
             Url = "https://github.com/sametexe001/luas/raw/refs/heads/main/fonts/teachers-pet.ttf"
         };
+
+        ["open-sans-px"] = {
+            FileName = {"openSansPX.ttf", "openSansPX.json"},
+            Url = "https://github.com/sametexe001/luas/raw/refs/heads/main/fonts/open-sans-px.ttf"
+        };
     };
 
     if not isfolder(Fonts.Folder) then
